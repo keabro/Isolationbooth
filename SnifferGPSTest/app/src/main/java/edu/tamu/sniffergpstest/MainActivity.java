@@ -20,7 +20,6 @@ import android.widget.EditText;
 
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SensorEventListener {
-    private Sensor senMagnetometer;
     private double latitude;
     private double longitude;
     private String tablename;
