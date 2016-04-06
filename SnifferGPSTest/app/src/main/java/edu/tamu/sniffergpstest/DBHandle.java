@@ -12,7 +12,7 @@ public class DBHandle extends SQLiteOpenHelper
 {
     String curTblName = "";
 
-    DBHandle(Context context, String name)
+    public DBHandle(Context context, String name)
     {
         super(context, name, null, 1);
     }
