@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private double latitude;
     private double longitude;
     private String tablename;
+    private DBHandle dbptr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
             }
         });
+
+
+        dbptr = new DBHandle(getApplicationContext(), "Data.db");
 
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
@@ -85,5 +90,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         //newtable in response to button
         EditText editText = (EditText) findViewById(R.id.table);
         String newtable = editText.getText().toString();
+        //@TODO create table "newtable"
     }
 }

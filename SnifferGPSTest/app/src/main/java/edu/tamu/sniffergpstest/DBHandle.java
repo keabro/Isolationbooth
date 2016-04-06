@@ -10,7 +10,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBHandle extends SQLiteOpenHelper
 {
-    DBHandle(Context context, String name)
+    String curTblName = "";
+
+    public DBHandle(Context context, String name)
     {
         super(context, name, null, 1);
     }
@@ -18,7 +20,7 @@ public class DBHandle extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        String cmd = "CREATE TABLE IF NOT EXISTS TBL1 (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
+        String cmd = "CREATE TABLE IF NOT EXISTS TBL_NULL" + " (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
         db.execSQL(cmd);
     }
 
@@ -28,11 +30,22 @@ public class DBHandle extends SQLiteOpenHelper
         return; //Do nothing
     }
 
-    public void writeDB()
+    public void writeDB(String MAC, double lat, double longitude, String timestamp)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues data = new ContentValues();
-        //data.put()
-        db.insert("TBL1", null, data);
+        data.put("MAC Address", MAC);
+        data.put("Lat", lat);
+        data.put("Long", longitude);
+        data.put("Timestamp", timestamp);
+        db.insert(curTblName, null, data);
+    }
+
+    public void openNextTable(String name)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String cmd = "CREATE TABLE IF NOT EXISTS " + name + " (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
+        db.execSQL(cmd);
+        curTblName = name;
     }
 }
