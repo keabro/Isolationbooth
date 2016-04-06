@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,11 +33,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private DBHandle dbptr;
     private String address = "";
     private String timestamp = "";
-
+    private TextView txtView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        txtView = (TextView) findViewById(R.id.latlong);
 
         final Button button_add = (Button) findViewById(R.id.add);
         button_add.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        txtView.setText("( " + Double.toString(latitude) + " , " + Double.toString(longitude) + " )");
 
     }
 

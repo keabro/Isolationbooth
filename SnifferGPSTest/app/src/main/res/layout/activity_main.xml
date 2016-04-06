@@ -7,6 +7,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="edu.tamu.sniffergpstest.MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:id="@+id/latlong"/>
     <Button
         android:layout_width="400dp"
         android:layout_height="wrap_content"
