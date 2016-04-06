@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private double latitude;
     private double longitude;
     private String tablename;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,5 +85,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         //newtable in response to button
         EditText editText = (EditText) findViewById(R.id.table);
         String newtable = editText.getText().toString();
+        //@TODO create table "newtable"
     }
 }
