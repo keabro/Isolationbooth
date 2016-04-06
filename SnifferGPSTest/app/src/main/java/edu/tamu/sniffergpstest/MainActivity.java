@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private double longitude;
     private String tablename;
     private DBHandle dbptr;
+    private String address = "";
+    private String timestamp = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         final Button button_add = (Button) findViewById(R.id.add);
         button_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {  //button for adding gps point to DB
-                //@TODO
+                dbptr.writeDB(address, latitude, longitude, timestamp);
             }
         });
-        
+
         dbptr = new DBHandle(getApplicationContext(), "Data.db");
 
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
-        String address = info.getMacAddress();
+        address = info.getMacAddress();
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Activity.LOCATION_SERVICE);
         try {
@@ -89,6 +91,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         //newtable in response to button
         EditText editText = (EditText) findViewById(R.id.table);
         String newtable = editText.getText().toString();
-        //@TODO create table "newtable"
+        dbptr.openNextTable(newtable);
     }
 }
