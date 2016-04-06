@@ -20,7 +20,6 @@ import android.widget.EditText;
 
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SensorEventListener {
-    private Sensor senMagnetometer;
     private double latitude;
     private double longitude;
     private String tablename;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 //@TODO
             }
         });
-
+        
         dbptr = new DBHandle(getApplicationContext(), "Data.db");
 
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
