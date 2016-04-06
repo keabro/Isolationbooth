@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
         });
 
-        dbptr = new DBHandle(getApplicationContext(), "Data.db");
+        String dir = "" + Environment.getExternalStorageDirectory().getPath() + "/Data.db";
+        dbptr = new DBHandle(getApplicationContext(), dir);
 
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();

@@ -34,9 +34,9 @@ public class DBHandle extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues data = new ContentValues();
-        data.put("MAC Address", MAC);
-        data.put("Lat", lat);
-        data.put("Long", longitude);
+        data.put("MAC_Address", MAC);
+        data.put("Latitude", lat);
+        data.put("Longitude", longitude);
         data.put("Timestamp", timestamp);
         db.insert(curTblName, null, data);
     }
