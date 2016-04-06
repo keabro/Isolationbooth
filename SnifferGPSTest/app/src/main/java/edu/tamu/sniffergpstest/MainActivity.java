@@ -18,6 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity implements LocationListener, SensorEventListener {
     private double latitude;
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         final Button button_add = (Button) findViewById(R.id.add);
         button_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {  //button for adding gps point to DB
+                DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date d = Calendar.getInstance().getTime();
+                timestamp = fmt.format(d);
                 dbptr.writeDB(address, latitude, longitude, timestamp);
             }
         });
