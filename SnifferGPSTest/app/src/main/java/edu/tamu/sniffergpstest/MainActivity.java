@@ -34,16 +34,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         final Button button_add = (Button) findViewById(R.id.add);
         button_add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {  //button for adding gps point to DB
-
+                //@TODO
             }
         });
 
         dbptr = new DBHandle(getApplicationContext(), "Data.db");
-
-        SensorManager senSensorManager = (SensorManager) this.getSystemService(Activity.SENSOR_SERVICE);
-        Sensor senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        senSensorManager.registerListener(this, senMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
