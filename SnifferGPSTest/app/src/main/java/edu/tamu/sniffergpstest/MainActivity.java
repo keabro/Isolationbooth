@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -28,7 +29,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements LocationListener, SensorEventListener {
     private double latitude;
     private double longitude;
-    private String tablename;
     private DBHandle dbptr;
     private String address = "";
     private String timestamp = "";
@@ -99,6 +99,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
     public void newtable(View view){
         //newtable in response to button
+        InputMethodManager inputManager = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         EditText editText = (EditText) findViewById(R.id.table);
         String newtable = editText.getText().toString();
         dbptr.openNextTable(newtable);
