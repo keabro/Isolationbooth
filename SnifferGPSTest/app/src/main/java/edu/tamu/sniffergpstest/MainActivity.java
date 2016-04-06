@@ -35,11 +35,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
         });
 
-        SensorManager senSensorManager = (SensorManager) this.getSystemService(Activity.SENSOR_SERVICE);
-        Sensor senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        senSensorManager.registerListener(this, senMagnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
