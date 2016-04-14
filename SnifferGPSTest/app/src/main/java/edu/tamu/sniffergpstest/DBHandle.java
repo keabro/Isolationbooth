@@ -2,6 +2,7 @@ package edu.tamu.sniffergpstest;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DBHandle extends SQLiteOpenHelper
 {
-    String curTblName = "";
+    public String curTblName = "TBL_DEFAULT";
 
     public DBHandle(Context context, String name)
     {
@@ -20,7 +21,7 @@ public class DBHandle extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        String cmd = "CREATE TABLE IF NOT EXISTS TBL_NULL" + " (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
+        String cmd = "CREATE TABLE IF NOT EXISTS " + curTblName + " (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
         db.execSQL(cmd);
     }
 
@@ -47,5 +48,36 @@ public class DBHandle extends SQLiteOpenHelper
         String cmd = "CREATE TABLE IF NOT EXISTS " + name + " (MAC_Address TEXT, Latitude REAL, Longitude REAL, Timestamp TEXT)";
         db.execSQL(cmd);
         curTblName = name;
+    }
+
+    public void clearCurrentTable()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String cmd = "DELETE FROM " + curTblName;
+        db.execSQL(cmd);
+    }
+
+    public String getLatestEntry()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String cmd = "SELECT * FROM " + curTblName + " WHERE Timestamp = (SELECT MAX(Timestamp) FROM " + curTblName + ")";
+        Cursor cursor = db.rawQuery(cmd, null);
+        if(cursor.getCount() == 0)
+            return "EMPTY";
+        cursor.moveToFirst();
+        int lat = cursor.getColumnIndex("Latitude");
+        int longi = cursor.getColumnIndex("Longitude");
+        int timest = cursor.getColumnIndex("Timestamp");
+        return "(" + cursor.getFloat(lat) + "," + cursor.getFloat(longi) + "," + cursor.getString(timest) + ")";
+    }
+
+    public String getNumRows()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + curTblName, null);
+        if(cursor == null)
+            return "NULL";
+        cursor.moveToFirst();
+        return "" + cursor.getInt(0);
     }
 }

@@ -8,34 +8,84 @@
     tools:context="edu.tamu.sniffergpstest.MainActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numLabel"
+        android:layout_marginTop="50dp"
+        android:text="Number of table entries: "/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/numEntries"
+        android:layout_toRightOf="@id/numLabel"
+        android:layout_marginTop="50dp"
+        android:text="null"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:text="Latest SQL Data:"
+        android:id="@+id/label"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/update"
+        android:layout_below="@id/label"
+        android:text="N/A"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        android:id="@+id/latlong"/>
+        android:id="@+id/data"
+        android:text="Current Location: N/A"/>
     <Button
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Data"
-        android:id= "@+id/add"
+        android:text="Start"
+        android:background="@color/green"
+        android:id= "@+id/toggle"
         android:layout_marginTop="200dp"
         android:layout_marginBottom="50dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tblname"
+        android:layout_below="@id/toggle"
+        android:text="Current Table Name: "/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/curTblName"
+        android:layout_toRightOf="@id/tblname"
+        android:layout_below="@id/toggle"
+        android:text="default"/>
     <EditText
-        android:layout_below="@id/add"
+        android:layout_below="@id/tblname"
         android:layout_weight="1"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id= "@+id/table"
         android:hint="Enter new table name"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="30dp"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Table"
+        android:id="@+id/clear"
+        android:onClick="clearTable"
+        android:layout_toRightOf="@id/curTblName"
+        android:text="Clear Entries"
+        android:layout_alignBaseline="@id/curTblName"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Table"
         android:onClick="newtable"
         android:layout_toRightOf="@+id/table"
-        android:layout_below="@id/add"
+        android:layout_below="@id/tblname"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
         android:id="@+id/button" />
 
 </RelativeLayout>
