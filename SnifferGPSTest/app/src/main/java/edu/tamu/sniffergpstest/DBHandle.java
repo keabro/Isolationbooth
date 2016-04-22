@@ -50,13 +50,6 @@ public class DBHandle extends SQLiteOpenHelper
         curTblName = name;
     }
 
-    public void clearCurrentTable()
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String cmd = "DELETE FROM " + curTblName;
-        db.execSQL(cmd);
-    }
-
     public String getLatestEntry()
     {
         SQLiteDatabase db = this.getReadableDatabase();

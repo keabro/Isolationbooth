@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -24,6 +25,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private DBHandle dbptr;
     private String address = "";
     private String timestamp = "";
+    private InetAddress bcastAddr;
 
     private volatile boolean running = false;
     private DataLogger dl;
@@ -64,6 +70,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         WifiManager manager = (WifiManager) getSystemService(Activity.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         address = info.getMacAddress();
+        DhcpInfo dhcp = manager.getDhcpInfo();
+        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+        byte[] quads = new byte[4];
+        for (int k = 0; k < 4; k++)
+            quads[k] = (byte) (broadcast >> (k * 8));
+        try{
+            bcastAddr = InetAddress.getByAddress(quads);
+        }catch(Exception e){System.err.println(e);}
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Activity.LOCATION_SERVICE);
         try {
@@ -112,6 +126,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
+    private void sendBcastPacket()
+    {
+        try {
+            DatagramSocket s = new DatagramSocket();
+            String msg = "null";
+            byte[] bytes = msg.getBytes();
+            DatagramPacket pkt = new DatagramPacket(bytes, bytes.length, bcastAddr, 2015);
+            s.send(pkt);
+        }catch(Exception e){System.err.println(e);}
+    }
+
     public void newtable(View view)
     {
         InputMethodManager inputManager = (InputMethodManager)
@@ -124,13 +149,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         curTblName.setText(dbptr.curTblName);
         String msg = "Table " + dbptr.curTblName + " opened";
         Toast t = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
-        t.show();
-    }
-
-    public void clearTable(View view)
-    {
-        dbptr.clearCurrentTable();
-        Toast t = Toast.makeText(getApplicationContext(), "Table entries cleared", Toast.LENGTH_SHORT);
         t.show();
     }
 
@@ -172,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 Date d = Calendar.getInstance().getTime();
                 timestamp = fmt.format(d);
                 dbptr.writeDB(address, latitude, longitude, timestamp);
+                sendBcastPacket();
                 try{
                     Thread.sleep(2000);
                 }catch(InterruptedException e) {

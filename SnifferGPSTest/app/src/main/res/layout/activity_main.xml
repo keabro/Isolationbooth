@@ -72,14 +72,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/clear"
-        android:onClick="clearTable"
-        android:layout_toRightOf="@id/curTblName"
-        android:text="Clear Entries"
-        android:layout_alignBaseline="@id/curTblName"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Change Table"
         android:onClick="newtable"
         android:layout_toRightOf="@+id/table"
